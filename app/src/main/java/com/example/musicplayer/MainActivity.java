@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
                 MediaPlayer player = MediaPlayer.create(e.getContext(), Uri.parse(list.get(position).getPath()));
                 player.start();
             });
-            button.setOnClickListener(e->{
-                MediaPlayer player = MediaPlayer.create(e.getContext(), Uri.parse(list.get(position).getPath()));
-                player.start();
-            });
+//            button.setOnClickListener(e->{
+//                MediaPlayer player = MediaPlayer.create(e.getContext(), Uri.parse(list.get(position).getPath()));
+//                player.start();
+//            });
         }
 
         @Override
