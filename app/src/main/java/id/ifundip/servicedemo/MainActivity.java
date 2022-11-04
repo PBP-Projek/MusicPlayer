@@ -16,10 +16,10 @@ import android.widget.Toast;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+//    deklarasi variabel
     private boolean isPlaying = false;
     private int currentSong = 0;
     private List<Song> songs;
-
     private TextView tvTitle;
 
     @Override
@@ -27,28 +27,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        inisialisasi variabel
         RecyclerView rvSongs = findViewById(R.id.rvSongs);
-
         Button btnPrevious = findViewById(R.id.btnPrevious);
         Button btnPlayStop = findViewById(R.id.buttonPlayStop);
         Button btnNext = findViewById(R.id.btnNext);
-
         tvTitle = findViewById(R.id.tvTitle);
 
+//        menambahkan lagu
         songs = Song.getSongs();
 
+//        menambahkan listener
         SongAdapter songAdapter = new SongAdapter(songs, index -> {
             currentSong = index;
             playMusic(index);
         });
+//        menambahkan adapter
         rvSongs.setAdapter(songAdapter);
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
 
+//        menambahkan aksi ketika button diklik
         btnPrevious.setOnClickListener(this);
         btnPlayStop.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
+//    method untuk memutar lagu
     public void playMusic(int index) {
         if (isPlaying) {
             stopMusic();
@@ -60,11 +64,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startService(intent);
     }
 
+//    method untuk menghentikan lagu
     public void stopMusic() {
         isPlaying = false;
         stopService(new Intent(this, SoundService.class));
     }
 
+//    method untuk memutar menghentikan lagu
     private void playPauseMusic() {
         if(isPlaying){
 //            stopMusic();
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+//   method untuk memutar lagu sebelumnya
     private void previousMusic() {
         if(currentSong > 0){
             currentSong--;
@@ -86,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+//    method untuk memutar lagu selanjutnya
     public void nextMusic() {
         if(currentSong < songs.size() - 1){
             currentSong++;
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+//    method untuk menangani aksi ketika button diklik
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.btnPrevious){
