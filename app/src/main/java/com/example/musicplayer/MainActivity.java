@@ -24,6 +24,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean isPlaying = false;
+    private int currentSong = 0;
+    private ArrayList<AudioData> list;
+    private MediaPlayer mediaPlayer;
 
     private static final int READ_EXTERNAL_STORAGE = 1;
     private Button button;
@@ -34,15 +38,51 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermission();
-        ArrayList<AudioData> list = loadAudio(this);
+        list = loadAudio(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MusicListAdapter(list));
+        recyclerView.setAdapter(new MusicListAdapter(list, index -> {
+            if (isPlaying) {
+                isPlaying = false;
+                stopPlaying();
+            }else {
+                isPlaying = true;
+                playMusic(index);
+            }
+//            MediaPlayer mediaPlayer = new MediaPlayer();
+//            try {
+//                mediaPlayer.setDataSource(list.get(index).getPath());
+//                mediaPlayer.prepare();
+//                mediaPlayer.start();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }));
 
         Button button = findViewById(R.id.button);
         Button buttonPrev = findViewById(R.id.buttonPrev);
         Button buttonNext = findViewById(R.id.buttonNext);
 
+        button.setOnClickListener(v -> {
+            stopPlaying();
+        });
+    }
+
+    private void playMusic(int index){
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(list.get(index).getPath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopPlaying(){
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.stop();
+        mediaPlayer.release();
     }
 
     //checkPermission
@@ -85,12 +125,14 @@ public class MainActivity extends AppCompatActivity {
         return tmpList;
     }
 
-    private class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyViewHolder> {
+    private static class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyViewHolder> {
 
         private ArrayList<AudioData> list;
+        private OnItemClickListener mListener;
 
-        public MusicListAdapter(ArrayList<AudioData> list) {
+        public MusicListAdapter(ArrayList<AudioData> list, OnItemClickListener listener) {
             this.list = list;
+            mListener = listener;
         }
 
         @NonNull
@@ -103,13 +145,8 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             holder.textView.setText(list.get(position).getName());
             holder.textView.setOnClickListener(e->{
-                MediaPlayer player = MediaPlayer.create(e.getContext(), Uri.parse(list.get(position).getPath()));
-                player.start();
+                mListener.onItemClick(position);
             });
-//            button.setOnClickListener(e->{
-//                MediaPlayer player = MediaPlayer.create(e.getContext(), Uri.parse(list.get(position).getPath()));
-//                player.start();
-//            });
         }
 
         @Override
@@ -124,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
 
                 textView = itemView.findViewById(R.id.textView);
             }
+        }
+
+        interface OnItemClickListener {
+            void onItemClick(int position);
         }
     }
 }
