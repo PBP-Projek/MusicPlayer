@@ -39,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MusicListAdapter(list));
 
-        button = findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
+        Button buttonPrev = findViewById(R.id.buttonPrev);
+        Button buttonNext = findViewById(R.id.buttonNext);
+
     }
 
     //checkPermission
