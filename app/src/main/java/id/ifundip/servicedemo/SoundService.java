@@ -3,14 +3,16 @@ package id.ifundip.servicedemo;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
-
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 public class SoundService extends Service {
     static MediaPlayer player;
 
-//    onStartCommand dijalankan ketika service dijalankan
+    //    dijalankan ketika service dijalankan
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        mengambil data dari intent
@@ -19,16 +21,26 @@ public class SoundService extends Service {
 //        membuat objek MediaPlayer
         player = MediaPlayer.create(this, file);
 
-//        onPrepared dijalankan ketika media player siap
         player.setOnPreparedListener(this::onPrepared);
 
         return START_STICKY;
+    }
+
+//    get duration
+    public static int getDuration() {
+        return player.getDuration();
+    }
+
+//    get current position
+    public static int getCurrentPosition() {
+        return player.getCurrentPosition();
     }
 
 //    onPrepared dijalankan ketika media player siap
     private void onPrepared(MediaPlayer mediaPlayer) {
 //        memutar lagu
         mediaPlayer.start();
+        MusikActivity.setDuration();
     }
 
 //    onDestroy dijalankan ketika service dihentikan
@@ -38,14 +50,14 @@ public class SoundService extends Service {
         stopPlayer();
     }
 
-//    stopPlayer untuk menghentikan media player
+//    pausePlayer untuk menghentikan sementara media player
     public static void pausePlayer(){
         if(player != null){
             player.pause();
         }
     }
 
-//    stopPlayer untuk menghentikan media player
+//    resumePlayer untuk memainkan/melanjutkan media player
     public static void resumePlayer(){
         if(player != null){
             player.start();
