@@ -8,16 +8,17 @@ public class Song {
     private final String title;
     private final int file;
 
+//    constructor
     public Song(int icon, String title, int file) {
         this.icon = icon;
         this.title = title;
         this.file = file;
     }
 
+//    getter
     public int getIcon() {
         return icon;
     }
-
 
     public String getTitle() {
         return title;
@@ -27,7 +28,7 @@ public class Song {
         return file;
     }
 
-
+//   menambahkan lagu dari resource raw
     public static List<Song> getSongs(){
         List<Song> songs = new ArrayList<>();
         songs.add(new Song(R.drawable.ic_song_file,"Fanfare",R.raw.fanfare));
@@ -41,7 +42,7 @@ public class Song {
         songs.add(new Song(R.drawable.ic_song_file,"Simphoni & Vokal 1 Stanza",R.raw.simphoni_vokal_1_stanza));
         songs.add(new Song(R.drawable.ic_song_file,"Simphoni & Vokal 3 Stanza",R.raw.simphoni_vokal_3_stanza));
         songs.add(new Song(R.drawable.ic_song_file,"Unisono 1 Stanza",R.raw.unisono_1_stanza));
-        songs.add(new Song(R.drawable.ic_song_file,"Unisono 1 Stanza",R.raw.unisono_3_stanza));
+        songs.add(new Song(R.drawable.ic_song_file,"Unisono 3 Stanza",R.raw.unisono_3_stanza));
         return songs;
     }
 }
