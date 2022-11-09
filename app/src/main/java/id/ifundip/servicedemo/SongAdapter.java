@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder>{
 
-    // Membuat variabel untuk menyimpan data lagu dan menerima inputan click
+    // Membuat variabel untuk menyimpan data lagu dan menerima inputan click.
     private final List<Song> songs;
     private OnItemClickListener listener;
 

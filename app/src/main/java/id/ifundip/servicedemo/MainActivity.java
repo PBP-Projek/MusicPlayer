@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
